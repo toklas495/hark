@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #ffffff; --fg: #1f2937; --muted: #6b7280; --faint: #9ca3af;
+    --field-bg: #ffffff; --field-br: #d1d5db; --chip: #f3f4f6;
+    --accent: #111827; --accent-fg: #ffffff;
+    --ok: #22c55e; --bad: #ef4444;
+    --warn-bg: #fef2f2; --warn-fg: #b91c1c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0f1115; --fg: #e5e7eb; --muted: #9ca3af; --faint: #6b7280;
+      --field-bg: #171a21; --field-br: #2a2f3a; --chip: #1b1f27;
+      --accent: #e5e7eb; --accent-fg: #0f1115;
+      --warn-bg: #2a1416; --warn-fg: #fca5a5;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font: 13px/1.4 -apple-system, system-ui, sans-serif;
+    width: 288px; margin: 0; padding: 14px;
+    color: var(--fg); background: var(--bg);
+  }
+  .title { display: flex; align-items: center; gap: 7px; margin: 0 0 12px; }
+  .title h1 { font-size: 14px; font-weight: 600; margin: 0; letter-spacing: .02em; }
+  #dot { width: 8px; height: 8px; border-radius: 50%; background: var(--faint); flex-shrink: 0; }
+  #dot.ok { background: var(--ok); }
+  #dot.bad { background: var(--bad); }
+  #conn { font-size: 11px; color: var(--muted); margin-left: auto; }
+  .row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .switch { position: relative; width: 34px; height: 20px; flex-shrink: 0; }
+  .switch input { opacity: 0; width: 0; height: 0; }
+  .slider { position: absolute; inset: 0; background: var(--field-br); border-radius: 20px; cursor: pointer; transition: background .15s; }
+  .slider::before { content: ""; position: absolute; height: 16px; width: 16px; left: 2px; top: 2px; background: #fff; border-radius: 50%; transition: transform .15s; }
+  input:checked + .slider { background: var(--ok); }
+  input:checked + .slider::before { transform: translateX(14px); }
+  .section-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .03em; margin: 14px 0 6px; }
+  input[type=text], input[type=password] { width: 100%; padding: 6px 8px; border: 1px solid var(--field-br); border-radius: 6px; font-size: 12px; background: var(--field-bg); color: var(--fg); }
+  .rule-row { display: flex; gap: 6px; }
+  .rule-row input { flex: 1; }
+  button.add { padding: 6px 10px; border: none; border-radius: 6px; background: var(--accent); color: var(--accent-fg); font-size: 12px; cursor: pointer; }
+  ul#rules { list-style: none; padding: 0; margin: 8px 0 0; max-height: 100px; overflow-y: auto; }
+  ul#rules li { display: flex; justify-content: space-between; align-items: center; background: var(--chip); border-radius: 6px; padding: 4px 8px; margin-bottom: 4px; font-size: 12px; }
+  ul#rules li button { border: none; background: none; color: var(--faint); cursor: pointer; font-size: 14px; line-height: 1; }
+  ul#rules li button:hover { color: var(--bad); }
+  .hint { font-size: 11px; color: var(--faint); margin-top: 4px; }
+  #status { display: none; background: var(--warn-bg); color: var(--warn-fg); border-radius: 6px; padding: 6px 8px; font-size: 11px; margin-bottom: 10px; }
+</style>
+</head>
+<body>
+  <div class="title">
+    <span id="dot"></span>
+    <h1>hark</h1>
+    <span id="conn">checking…</span>
+  </div>
+
+  <div id="status"></div>
+
+  <div class="row">
+    <span>Capture enabled</span>
+    <label class="switch">
+      <input type="checkbox" id="enabled">
+      <span class="slider"></span>
+    </label>
+  </div>
+
+  <div class="section-label">Scope (optional)</div>
+  <div class="rule-row">
+    <input type="text" id="ruleInput" placeholder="api.example.com">
+    <button class="add" id="addRule">Add</button>
+  </div>
+  <div class="hint">Matches the request host. Empty = capture everything.</div>
+  <ul id="rules"></ul>
+
+  <div class="section-label">Listener URL</div>
+  <div class="rule-row">
+    <input type="text" id="listenerUrl" placeholder="http://127.0.0.1:8787/capture">
+    <button class="add" id="saveUrl">Save</button>
+  </div>
+
+  <div class="section-label">Token</div>
+  <div class="rule-row">
+    <input type="password" id="token" placeholder="paste token printed by `hark listen`">
+    <button class="add" id="saveToken">Save</button>
+  </div>
+  <div class="hint">Must match the listener's <code>-token</code>.</div>
+
+  <script src="popup.js"></script>
+</body>
+</html>

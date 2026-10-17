@@ -1,0 +1,15 @@
+# Capture logs hold LIVE auth tokens and cookies — never commit them.
+
+# Build output — ship these as GitHub Releases, not in the tree.
+/dist/
+*.exe
+*.out
+
+# Exported artifacts
+wordlist*.txt
+request*.txt
+*.jsonl
+
+# OS / editor noise
+.DS_Store
+*.swp

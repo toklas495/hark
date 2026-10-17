@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "hark",
+  "description": "Passively capture browser API traffic and ship it to the hark listener.",
+  "version": "1.0.0",
+  "permissions": ["debugger", "storage", "tabs", "scripting"],
+  "host_permissions": ["<all_urls>"],
+  "background": { "service_worker": "background.js" },
+  "action": { "default_popup": "popup.html" }
+}
