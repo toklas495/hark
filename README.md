@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="extension/assets/hark-neon.png" alt="Hark — security tool" width="420">
+</p>
+
 # hark
 
 > Watch, don't sit in the middle.
