@@ -1,7 +1,9 @@
 # Capture logs hold LIVE auth tokens and cookies — never commit them.
+captures.ndjson
 
 # Build output — ship these as GitHub Releases, not in the tree.
 /dist/
+hark
 *.exe
 *.out
 
